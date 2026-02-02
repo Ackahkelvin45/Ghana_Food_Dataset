@@ -2,7 +2,7 @@
 
 import { ArrowRight, ArrowLeft } from "lucide-react"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface Form5Props {
   handleNavigation: (page: number, direction?: number) => void
@@ -16,6 +16,18 @@ function Form5({ handleNavigation, direction = 1 }: Form5Props) {
     email: '',
     phone: ''
   })
+
+  useEffect(() => {
+    // Load saved form data from sessionStorage
+    const savedFormData = sessionStorage.getItem('form5_data')
+    if (savedFormData) {
+      try {
+        setFormData(JSON.parse(savedFormData))
+      } catch (e) {
+        console.error('Error loading form5 data:', e)
+      }
+    }
+  }, [])
 
   const variants = {
     initial: (dir: number) => ({
@@ -33,14 +45,17 @@ function Form5({ handleNavigation, direction = 1 }: Form5Props) {
   }
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
+    const updatedData = {
+      ...formData,
       [field]: value
-    }))
+    }
+    setFormData(updatedData)
+    sessionStorage.setItem('form5_data', JSON.stringify(updatedData))
   }
 
   const handleContinue = () => {
-    // Navigate to final confirmation
+    // Ensure data is saved before navigation
+    sessionStorage.setItem('form5_data', JSON.stringify(formData))
     handleNavigation(6, 1)
   }
 

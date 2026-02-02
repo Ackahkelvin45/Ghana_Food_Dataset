@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  # PostgreSQL database (app connects to this via DATABASE_URL)
+  db:
+    image: postgres:16-alpine
+    container_name: food_dataset_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: food_dataset
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d food_dataset"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Next.js app — connects to db service; migrations run on startup
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: food_dataset_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:admin@db:5432/food_dataset?schema=public
+      HOSTNAME: "0.0.0.0"
+      PORT: "3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+       - "3000:3000"
+    command: sh -c "npx prisma migrate deploy && npm run start"
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+    volumes:
+      - ./nginx:/etc/nginx/conf.d   # your Nginx config files
+      - /etc/letsencrypt:/etc/letsencrypt  # SSL certs if using Let's Encrypt
+    depends_on:
+      - app
+    networks:
+      - default
+
+volumes:
+  postgres_data:

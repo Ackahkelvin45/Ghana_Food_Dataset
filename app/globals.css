@@ -3,7 +3,6 @@
 
 
 @theme {
-
   --font-google: "Google Sans", sans-serif;
   --font-inter: "Inter", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
@@ -11,3 +10,5 @@
   --font-raleway: "Raleway", sans-serif;
   --font-sans: "Inter", "Google Sans", ui-sans-serif, system-ui, sans-serif;
 }
+
+@custom-variant dark (&:is(.dark *));

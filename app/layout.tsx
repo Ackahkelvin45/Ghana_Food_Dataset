@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat, Mulish, Raleway } from 'next/font/google'
-import NavBar from "@/src/components/NavBar";
+import LayoutWrapper from "@/src/components/LayoutWrapper";
 import "./globals.css";
+import Providers from "./providers";
 
 
 const inter = Inter({
@@ -51,13 +52,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-     <body
->
-        <NavBar />
-        <div className="w-full  bg-white">
-{children}
-        </div>
-       
+     <body suppressHydrationWarning>
+  <Providers>
+        <LayoutWrapper>{children}</LayoutWrapper>
+        </Providers>
       </body>
     </html>
   );

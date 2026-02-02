@@ -52,22 +52,42 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
     if (storedDishName) {
       setDishName(storedDishName)
     }
+    
+    // Load saved form data from sessionStorage
+    const savedFormData = sessionStorage.getItem('form3_data')
+    if (savedFormData) {
+      try {
+        setFormData(JSON.parse(savedFormData))
+      } catch (e) {
+        console.error('Error loading form3 data:', e)
+      }
+    }
   }, [])
 
   const handleInputChange = (field: string, value: string | string[]) => {
-    setFormData(prev => ({
-      ...prev,
+    const updatedData = {
+      ...formData,
       [field]: value
-    }))
+    }
+    setFormData(updatedData)
+    sessionStorage.setItem('form3_data', JSON.stringify(updatedData))
   }
 
   const handleMultiSelectChange = (field: string, value: string, checked: boolean) => {
-    setFormData(prev => ({
-      ...prev,
+    const updatedData = {
+      ...formData,
       [field]: checked
-        ? [...(prev[field as keyof typeof prev] as string[]), value]
-        : (prev[field as keyof typeof prev] as string[]).filter(item => item !== value)
-    }))
+        ? [...(formData[field as keyof typeof formData] as string[]), value]
+        : (formData[field as keyof typeof formData] as string[]).filter(item => item !== value)
+    }
+    setFormData(updatedData)
+    sessionStorage.setItem('form3_data', JSON.stringify(updatedData))
+  }
+
+  const handleContinue = () => {
+    // Ensure data is saved before navigation
+    sessionStorage.setItem('form3_data', JSON.stringify(formData))
+    handleNavigation(4, 1)
   }
 
   const isRiceOrYamOrPlantain = ['Yam', 'Plantain (boiled)', 'Jollof', 'Plain Rice', 'Waakye'].includes(dishName)
@@ -410,7 +430,7 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
           Previous 
         </button>
         <button
-          onClick={() => handleNavigation(4, 1)}
+          onClick={handleContinue}
           className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] hover:bg-[#d66a1f]"
         >
           Continue

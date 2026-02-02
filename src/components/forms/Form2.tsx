@@ -2,7 +2,7 @@
 
 import { ArrowRight, ArrowLeft } from "lucide-react"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FilePond, registerPlugin } from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
@@ -38,22 +38,95 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
     })
   }
 
-  const handleMainImagesUpdate = (fileItems: any[]) => {
+  // Load saved data from sessionStorage on mount
+  useEffect(() => {
+    const savedDishName = sessionStorage.getItem('dishName')
+    const savedConfirmation = sessionStorage.getItem('form2_confirmation')
+    if (savedDishName) setDishName(savedDishName)
+    if (savedConfirmation) setConfirmation(savedConfirmation)
+  }, [])
+
+  // Helper function to convert FilePond file to base64 ImageFile
+  const convertFileToImageFile = async (fileItem: any): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      if (fileItem.file) {
+        const reader = new FileReader()
+        reader.onload = () => {
+          resolve({
+            url: reader.result as string, // base64 data URL
+            filename: fileItem.filename || fileItem.file.name || 'image.jpg',
+            size: fileItem.file.size,
+            mimeType: fileItem.file.type
+          })
+        }
+        reader.onerror = reject
+        reader.readAsDataURL(fileItem.file)
+      } else {
+        // If file is already processed
+        resolve({
+          url: fileItem.getFileEncodeBase64String ? fileItem.getFileEncodeBase64String() : '',
+          filename: fileItem.filename || 'image.jpg',
+          size: fileItem.size,
+          mimeType: fileItem.type
+        })
+      }
+    })
+  }
+
+  const handleMainImagesUpdate = async (fileItems: any[]) => {
     setMainImages(fileItems)
+    
+    // Convert files to base64 and store in sessionStorage
+    try {
+      const imageFiles = await Promise.all(
+        fileItems.map((item: any) => convertFileToImageFile(item))
+      )
+      sessionStorage.setItem('form2_mainImages_base64', JSON.stringify(imageFiles))
+    } catch (error) {
+      console.error('Error converting main images:', error)
+    }
   }
 
-  const handleAdditionalImagesUpdate = (fileItems: any[]) => {
+  const handleAdditionalImagesUpdate = async (fileItems: any[]) => {
     setAdditionalImages(fileItems)
+    
+    // Convert files to base64 and store in sessionStorage
+    try {
+      const imageFiles = await Promise.all(
+        fileItems.map((item: any) => convertFileToImageFile(item))
+      )
+      sessionStorage.setItem('form2_additionalImages_base64', JSON.stringify(imageFiles))
+    } catch (error) {
+      console.error('Error converting additional images:', error)
+    }
   }
 
+  const handleFoodSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value
+    setDishName(value)
+    sessionStorage.setItem('dishName', value)
+  }
 
-const handleFoodSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    console.log('onChange fired, value:', value)
+    setConfirmation(value)
+    sessionStorage.setItem('form2_confirmation', value)
+  }
 
-  setDishName(e.target.value)
-  sessionStorage.setItem('dishName', e.target.value)
+  const handleRadioClick = (value: string) => {
+    console.log('onClick fired, value:', value)
+    setConfirmation(value)
+    sessionStorage.setItem('form2_confirmation', value)
+  }
 
-
-}
+  const handleContinue = () => {
+    // Save current state before navigation
+    if (confirmation) {
+      sessionStorage.setItem('form2_confirmation', confirmation)
+    }
+    handleNavigation(3, 1)
+  }
 
   
 
@@ -103,7 +176,7 @@ const handleFoodSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </div>
 
         {/* Main photo upload */}
-        <div className="mb-6 font-raleway">
+        <div className="mb-6 font-raleway relative z-0">
           <label className="block text-sm font-medium mb-2">
             Please upload a clear photograph of the food item. <span className="text-red-500">*</span>
           </label>
@@ -125,7 +198,7 @@ const handleFoodSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </div>
 
         {/* Additional angle upload */}
-        <div className="mb-6 font-raleway">
+        <div className="mb-6 font-raleway relative z-0">
           <label className="block text-sm font-medium mb-2">
             Please upload an additional angle of the same food
           </label>
@@ -147,35 +220,43 @@ const handleFoodSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </div>
 
         {/* Confirmation */}
-        <div className="mb-6 font-raleway">
+        <div className="mb-6 font-raleway relative z-10">
           <label className="block text-sm font-medium mb-3">
            Please confirm that no person or part of a person appears in the image. <span className="text-red-500">*</span>
           </label>
           <div className="flex gap-6">
-            <label className="flex items-center gap-2 cursor-pointer">
+            <div className="flex items-center gap-2">
               <input
                 type="radio"
-                name="confirmation"
+                id="confirmation-yes"
+                name="confirmation-form2"
                 value="yes"
                 checked={confirmation === 'yes'}
-                onChange={(e) => setConfirmation(e.target.value)}
-                className="w-4 h-4 text-[#ee7c2b] focus:ring-[#ee7c2b]"
+                onChange={handleConfirmationChange}
+                onClick={() => handleRadioClick('yes')}
+                className="w-4 h-4 text-[#ee7c2b] focus:ring-[#ee7c2b] cursor-pointer"
                 required
               />
-              <span className="text-sm">Yes</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+              <label htmlFor="confirmation-yes" className="text-sm cursor-pointer" onClick={() => handleRadioClick('yes')}>
+                Yes
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
               <input
                 type="radio"
-                name="confirmation"
+                id="confirmation-no"
+                name="confirmation-form2"
                 value="no"
                 checked={confirmation === 'no'}
-                onChange={(e) => setConfirmation(e.target.value)}
-                className="w-4 h-4 text-[#ee7c2b] focus:ring-[#ee7c2b]"
+                onChange={handleConfirmationChange}
+                onClick={() => handleRadioClick('no')}
+                className="w-4 h-4 text-[#ee7c2b] focus:ring-[#ee7c2b] cursor-pointer"
                 required
               />
-              <span className="text-sm">No</span>
-            </label>
+              <label htmlFor="confirmation-no" className="text-sm cursor-pointer" onClick={() => handleRadioClick('no')}>
+                No
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +269,8 @@ const handleFoodSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
           Previous
         </button>
         <button
-          onClick={() => handleNavigation(3, 1)}
+          onClick={handleContinue}
+          disabled={!dishName || !confirmation || mainImages.length === 0}
           className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
         >
           Continue

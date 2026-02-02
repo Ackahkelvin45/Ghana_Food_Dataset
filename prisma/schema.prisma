@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+enum UserTypes {
+  ADMIN
+  USER
+}
+
+// User model for authenticated users
+model User {
+  id          Int      @id @default(autoincrement())
+  fullName    String
+  email       String  @unique
+  phone       String?
+  userType    UserTypes @default(USER)
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+
+enum DishTypes {
+  YAM
+  PLANTAIN
+  KENKEY
+  BANKU
+  KOKONTE
+  FUFU
+  JOLLOF
+  PLAIN_RICE
+  WAAKYE
+  BREAD
+  KOKO
+  BEANS 
+
+}
+
+model Submission {
+  id        Int      @id @default(autoincrement())
+ 
+  dishName  DishTypes    // Yam, Plantain (boiled), Kenkey, Banku, Kokonte, Fufu, Jollof, Plain Rice, Waakye, Bread, Koko, Beans (Gob3)
+  noPersonInImage Boolean @default(false) 
+  
+  // Location information
+  region    String   // AHAFO, ASHANTI, BONO EAST, BRONG AHAFO, CENTRAL, EASTERN, GREATER ACCRA, NORTH EAST, NORTHERN, OTI, SAVANNAH, UPPER EAST, UPPER WEST, VOLTA, WESTERN, WESTERN NORTH
+  town      String?
+  foodObtained String   // Home kitchen, Restaurant, Chop bar, Street vendor, School canteen
+  foodObtainedOther String?
+  
+  // Contributor information
+  wantsAcknowledgement Boolean @default(false)
+  acknowledgedName     String?
+  acknowledgedEmail    String?
+  acknowledgedPhone    String?
+  
+  
+  accuracyConfirmed Boolean @default(false)
+  
+  // Relations
+  images    Image[]
+  
+  // Dish-specific metadata (one-to-one relationships)
+  riceYamPlantainMeta RiceYamPlantainMeta?
+  kokoMeta           KokoMeta?
+  bankuFufuMeta      BankuFufuKokonteKenkeyMeta?
+  breadMeta          BreadMeta?
+  gob3Meta           Gob3Meta?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([dishName])
+  @@index([region])
+
+  @@index([createdAt])
+}
+
+// Metadata for Rice/Yam/Plantain dishes (Yam, Plantain (boiled), Jollof, Plain Rice, Waakye)
+model RiceYamPlantainMeta {
+  id          Int       @id @default(autoincrement())
+  submissionId Int      @unique
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  
+  stew        String?   
+  stewOther   String?
+  extraItems  String[]  // Salad, Spaghetti, Gari, Pepper, Avocado, fried plantain, None
+  extraItemsOther String?
+  proteinContext String[] // Fish, Chicken, Turkey, Beef, Goat Meat, Boiled Egg, Friend Egg, Sausage, Gizzards, Cow meat, Pork, Snail, Shrimp, Wele, None
+  proteinContextOther String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Metadata for Koko
+model KokoMeta {
+  id          Int       @id @default(autoincrement())
+  submissionId Int      @unique
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  
+  kokoItems   String[]  // Milk, Groundnuts, None
+  kokoItemsOther String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Metadata for Banku/Fufu/Kokonte/Kenkey
+model BankuFufuKokonteKenkeyMeta {
+  id          Int       @id @default(autoincrement())
+  submissionId Int      @unique
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  
+  soupContext String?   // Light Soup, Groundnut Soup, Palm Nut Soup, Okro Soup/Stew, Ayoyo, Okro, Ebunu Ebunu, None
+  soupContextOther String?
+  pepper      String[]  // Red Pepper, Green Pepper, Shito (only for Banku, Kokonte, Kenkey)
+  pepperOther String?
+  proteinContext String[] // Fish, Chicken, Turkey, Beef, Goat Meat, Boiled Egg, Friend Egg, Sausage, Gizzards, Cow meat, Pork, Snail, Shrimp, Wele, None
+  proteinContextOther String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Metadata for Bread
+model BreadMeta {
+  id          Int       @id @default(autoincrement())
+  submissionId Int      @unique
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  
+  breadType   String?   // Sugar Bread, Tea Bread, Wheat Bread, Brown Bread, Cake Bread, Coconut Bread
+  breadTypeOther String?
+  breadServedWith String[] // Jam, Butter, Mangerine, None
+  breadServedWithOther String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Metadata for Gob3 (Beans)
+model Gob3Meta {
+  id          Int       @id @default(autoincrement())
+  submissionId Int      @unique
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  
+  gob3ServedWith String[] // Fried Plantain, Fried Yam, Salad, Rice, None
+  gob3ServedWithOther String?
+  proteinContext String[] // Fish, Chicken, Turkey, Beef, Goat Meat, Boiled Egg, Friend Egg, Sausage, Gizzards, Cow meat, Pork, Snail, Shrimp, Wele, None
+  proteinContextOther String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Image model for storing image file references
+model Image {
+  id          Int       @id @default(autoincrement())
+  submissionId Int
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  url         String    // File path or URL
+  type        String    // "main" or "additional"
+  filename    String
+  size        Int?      // File size in bytes
+  mimeType    String?
+  createdAt   DateTime  @default(now())
+  
+  @@index([submissionId])
+  @@index([type])
+}

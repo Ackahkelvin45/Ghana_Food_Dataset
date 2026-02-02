@@ -7,6 +7,7 @@ import Form3 from "../components/forms/Form3"
 import Form4 from "../components/forms/Form4"
 import Form5 from "../components/forms/Form5"
 import Form6 from "../components/forms/Form6"
+import Completed from "../components/forms/completed"
 
 function MutiStepLayout() {
     const [active, setActive]= useState<number>(1)
@@ -25,13 +26,14 @@ function MutiStepLayout() {
     useEffect(() => {
       const storedPage = sessionStorage.getItem("page");
       if (storedPage) {
-        setActive(parseInt(storedPage));
+        const pageNum = parseInt(storedPage);
+        setActive(pageNum <= 7 ? pageNum : 1);
       }
     })
   return (
     <div className="flex w-full py-5 items-center gap-2   flex-col ">
 
-      <Tab active={active} onTabClick={handleTabClick} />
+      {active !== 7 && <Tab active={active} onTabClick={handleTabClick} />}
       {
         active === 1 ? <Form1  handleNavigation={handleNavigation}/>:
         active === 2 ? <Form2  handleNavigation={handleNavigation} /> :
@@ -39,6 +41,7 @@ function MutiStepLayout() {
         active === 4 ? <Form4 handleNavigation={handleNavigation} /> :
         active === 5 ? <Form5 handleNavigation={handleNavigation} /> :
         active === 6 ? <Form6 handleNavigation={handleNavigation} /> :
+        active === 7 ? <Completed handleNavigation={handleNavigation} /> :
         <Form3 handleNavigation={handleNavigation}   />
       }
 

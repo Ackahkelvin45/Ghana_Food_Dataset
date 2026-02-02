@@ -17,6 +17,18 @@ function Form4({ handleNavigation, direction = 1 }: Form4Props) {
     foodObtainedOther: ''
   })
 
+  useEffect(() => {
+    // Load saved form data from sessionStorage
+    const savedFormData = sessionStorage.getItem('form4_data')
+    if (savedFormData) {
+      try {
+        setFormData(JSON.parse(savedFormData))
+      } catch (e) {
+        console.error('Error loading form4 data:', e)
+      }
+    }
+  }, [])
+
   const variants = {
     initial: (dir: number) => ({
       x: dir > 0 ? 300 : -300,
@@ -33,10 +45,18 @@ function Form4({ handleNavigation, direction = 1 }: Form4Props) {
   }
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
+    const updatedData = {
+      ...formData,
       [field]: value
-    }))
+    }
+    setFormData(updatedData)
+    sessionStorage.setItem('form4_data', JSON.stringify(updatedData))
+  }
+
+  const handleContinue = () => {
+    // Ensure data is saved before navigation
+    sessionStorage.setItem('form4_data', JSON.stringify(formData))
+    handleNavigation(5, 1)
   }
 
   const regionOptions = [
@@ -161,7 +181,7 @@ function Form4({ handleNavigation, direction = 1 }: Form4Props) {
           Previous
         </button>
         <button
-          onClick={() => handleNavigation(5, 1)}
+          onClick={handleContinue}
           disabled={!formData.region || !formData.foodObtained}
           className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
         >
