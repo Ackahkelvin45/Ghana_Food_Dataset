@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: food_dataset
-      POSTGRES_USER: postgres
+      POSTGRES_USER: kelvin
       POSTGRES_PASSWORD: admin
       PGDATA: /var/lib/postgresql/data
     volumes:
@@ -29,7 +29,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql://postgres:admin@db:5432/food_dataset?schema=public
+      DATABASE_URL: postgresql://kelvin:admin@db:5432/food_dataset?schema=public
       HOSTNAME: "0.0.0.0"
       PORT: "3000"
     depends_on:
