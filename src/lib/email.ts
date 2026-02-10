@@ -1,19 +1,31 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export interface PasswordResetEmailData {
   to: string
   resetUrl: string
   userName: string
 }
 
+let resend: Resend | null = null
+
+function getResendClient() {
+  if (!resend) {
+    const apiKey = process.env.RESEND_API_KEY
+    if (!apiKey || apiKey === 'your_resend_api_key_here') {
+      throw new Error('RESEND_API_KEY environment variable is not set or is using placeholder value')
+    }
+    resend = new Resend(apiKey)
+  }
+  return resend
+}
+
 export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
   try {
     const { to, resetUrl, userName } = data
 
-    const result = await resend.emails.send({
-      from: process.env.FROM_EMAIL!,
+    const resendClient = getResendClient()
+    const result = await resendClient.emails.send({
+      from: process.env.FROM_EMAIL || 'noreply@yourdomain.com',
       to: [to],
       subject: 'Reset your password - Ghana Food Dataset',
       html: `
