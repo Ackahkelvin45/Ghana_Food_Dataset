@@ -47,11 +47,9 @@ services:
     container_name: nginx
     restart: unless-stopped
     ports:
-      - "80:80"      # HTTP
-      - "443:443"    # HTTPS
+      - '3000:80'
     volumes:
-      - ./nginx:/etc/nginx/conf.d   # your Nginx config files
-      - /etc/letsencrypt:/etc/letsencrypt  # SSL certs if using Let's Encrypt
+      - ./nginx/:/etc/nginx/conf.d
     depends_on:
       - app
     networks:
