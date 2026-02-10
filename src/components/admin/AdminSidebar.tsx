@@ -11,6 +11,7 @@ import {
   Settings,
   Home,
   LogOut,
+  CircleX
 } from 'lucide-react'
 import LogoutModal from '@/src/components/modal/Logoutmodal'
 
@@ -22,7 +23,7 @@ const navItems = [
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ isOpen, onClose ,showicon}: { isOpen: boolean, onClose: () => void ,showicon: boolean }) {
   const pathname = usePathname()
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
@@ -37,11 +38,22 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 z-30 hidden h-screen w-56 flex-col border-r border-gray-200 bg-gray-50 md:flex">
-      <div className="flex h-14 items-center border-b border-gray-200 px-6">
+    <aside className={`fixed left-0 top-0 z-30  h-screen w-56 ${isOpen ? 'translate-x-0' : 'md:translate-x-0 -translate-x-full'} transition-all duration-300 ease-in-out flex-col border-r border-gray-200 bg-gray-50 md:flex`}>
+      <div className="flex h-14 items-center justify-between border-b border-gray-200 px-6">
         <Link href="/admin" className="font-google text-lg font-semibold text-gray-800">
           Ghana Food
         </Link>
+
+
+{
+  showicon && (
+    <button onClick={onClose}>
+        <CircleX className="h-5 w-5 shrink-0" />
+    </button>
+  )
+}
+
+
       </div>
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">
         <Link

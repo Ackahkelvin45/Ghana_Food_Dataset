@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Trash2 } from 'lucide-react'
 
 type DeleteConfirmModalProps = {
@@ -25,41 +26,41 @@ export default function DeleteConfirmModal({
     onOpenChange(false)
   }
 
-  // Close on Escape (same as LogoutModal)
+  // Close on Escape & lock scroll
   useEffect(() => {
+    if (!isOpen) return
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onOpenChange(false)
     }
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'hidden'
-    }
+
+    document.addEventListener('keydown', handleEscape)
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = ''
+      document.body.style.overflow = originalOverflow
     }
   }, [isOpen, onOpenChange])
 
   if (!isOpen) return null
 
-  return (
+  // Render modal via portal to body
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="delete-modal-title"
+      aria-label="Close modal"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={() => onOpenChange(false)}
     >
-      {/* Backdrop - same as LogoutModal */}
-      <button
-        type="button"
-        aria-label="Close modal"
-        className="absolute inset-0 bg-black/50 transition-opacity"
-        onClick={() => onOpenChange(false)}
-        disabled={isLoading}
-      />
-
-      {/* Modal panel - same structure and classes as LogoutModal */}
-      <div className="relative w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-xl">
+      {/* Modal panel */}
+      <div
+        className="relative w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="delete-modal-title"
+        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+      >
         <div className="flex items-center gap-2 border-b border-gray-100 pb-4">
           <Trash2 className="h-5 w-5 shrink-0 text-red-500" />
           <h2 id="delete-modal-title" className="text-lg font-semibold text-gray-900">
@@ -100,6 +101,7 @@ export default function DeleteConfirmModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { LogOut } from 'lucide-react'
 
 type LogoutModalProps = {
@@ -21,41 +22,41 @@ export default function LogoutModal({
     onOpenChange(false)
   }
 
-  // Close on Escape
+  // Close on Escape & lock scroll
   useEffect(() => {
+    if (!isOpen) return
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onOpenChange(false)
     }
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'hidden'
-    }
+
+    document.addEventListener('keydown', handleEscape)
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = ''
+      document.body.style.overflow = originalOverflow
     }
   }, [isOpen, onOpenChange])
 
   if (!isOpen) return null
 
-  return (
+  // Portal the modal to the body
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="logout-modal-title"
+      aria-label="Close modal"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      onClick={() => onOpenChange(false)}
     >
-      {/* Backdrop */}
-      <button
-        type="button"
-        aria-label="Close modal"
-        className="absolute inset-0 bg-black/50 transition-opacity"
-        onClick={() => onOpenChange(false)}
-        disabled={isLoading}
-      />
-
       {/* Modal panel */}
-      <div className="relative w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-xl">
+      <div
+        className="relative w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="logout-modal-title"
+        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+      >
         <div className="flex items-center gap-2 border-b border-gray-100 pb-4">
           <LogOut className="h-5 w-5 shrink-0 text-red-500" />
           <h2 id="logout-modal-title" className="text-lg font-semibold text-gray-900">
@@ -96,6 +97,7 @@ export default function LogoutModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

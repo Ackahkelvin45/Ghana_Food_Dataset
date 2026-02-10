@@ -7,11 +7,17 @@ export const metadata = {
 export default function AdminSubmissionsPage() {
   return (
     <div className="font-raleway">
-      <h1 className="mb-4 font-google text-2xl font-semibold text-gray-900">
-        Submissions
-      </h1>
-      <p className="mb-6 text-gray-600">Manage food image submissions here.</p>
-      <SubmissionsTable />
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-google text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
+          Submissions
+        </h1>
+        <p className="text-sm sm:text-base text-gray-600 max-w-2xl">
+          Manage food image submissions here.
+        </p>
+      </div>
+      <div className="rounded-lg    overflow-hidden">
+        <SubmissionsTable />
+      </div>
     </div>
   )
 }

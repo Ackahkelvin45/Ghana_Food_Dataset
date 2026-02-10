@@ -256,7 +256,7 @@ function SubmissionsTable() {
 
   function renderFilters() {
     return (
-      <div className="flex flex- justify-end items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <div className="space-y-4 lg:space-y-0 lg:flex lg:justify-end lg:items-center lg:gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
@@ -269,50 +269,56 @@ function SubmissionsTable() {
             className="w-full rounded-lg border border-gray-300 py-2 pl-9 pr-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b]"
           />
         </div>
-        <select
-          value={dishName}
-          onChange={(e) => updateQuery({ dishName: e.target.value, page: 1 })}
-          className="rounded-lg border border-gray-300 py-2 px-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b]"
-        >
-          {DISH_OPTIONS.map((opt) => (
-            <option key={opt.value || 'all'} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        <select
-          value={region}
-          onChange={(e) => updateQuery({ region: e.target.value, page: 1 })}
-          className="rounded-lg border border-gray-300 py-2 px-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b]"
-        >
-          {REGION_OPTIONS.map((opt) => (
-            <option key={opt.value || 'all'} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        <select
-          value={limit}
-          onChange={(e) => updateQuery({ limit: Number(e.target.value), page: 1 })}
-          className="rounded-lg border border-gray-300 py-2 px-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b]"
-          aria-label="Rows per page"
-        >
-          {[10, 20, 50].map((n) => (
-            <option key={n} value={n}>
-              {n} per page
-            </option>
-          ))}
-        </select>
-        {hasFilters && (
-          <button
-            type="button"
-            onClick={clearFilters}
-            className="inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-2">
+          <select
+            value={dishName}
+            onChange={(e) => updateQuery({ dishName: e.target.value, page: 1 })}
+            className="rounded-lg border border-gray-300 py-2 px-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b] min-w-[140px]"
           >
-            <X className="h-4 w-4" />
-            Clear
-          </button>
-        )}
+            {DISH_OPTIONS.map((opt) => (
+              <option key={opt.value || 'all'} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={region}
+            onChange={(e) => updateQuery({ region: e.target.value, page: 1 })}
+            className="rounded-lg border border-gray-300 py-2 px-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b] min-w-[140px]"
+          >
+            {REGION_OPTIONS.map((opt) => (
+              <option key={opt.value || 'all'} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={limit}
+            onChange={(e) => updateQuery({ limit: Number(e.target.value), page: 1 })}
+            className="rounded-lg border border-gray-300 py-2 px-3 text-sm focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b] min-w-[120px]"
+            aria-label="Rows per page"
+          >
+            {[10, 20, 50].map((n) => (
+              <option key={n} value={n}>
+                {n} per page
+              </option>
+            ))}
+          </select>
+
+          {hasFilters && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap"
+            >
+              <X className="h-4 w-4" />
+              Clear
+            </button>
+          )}
+        </div>
       </div>
     )
   }
@@ -407,31 +413,31 @@ function SubmissionsTable() {
         </table>
         </div>
         {(total > 0 || page > 1) && (
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 px-6 py-3 text-sm text-gray-600">
-            <span>
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3 border-t border-gray-200 px-4 sm:px-6 py-3 text-sm text-gray-600">
+            <span className="text-center sm:text-left">
               Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of {total}
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <button
                 type="button"
                 onClick={() => updateQuery({ page: page - 1 })}
                 disabled={page <= 1}
-                className="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-3 py-1.5 text-gray-700 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 sm:px-3 py-1.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50"
               >
-                <ChevronLeft className="h-4 w-4" />
-                Previous
+                <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline">Previous</span>
               </button>
-              <span className="px-2">
+              <span className="px-2 text-center min-w-[100px]">
                 Page {page} of {totalPages}
               </span>
               <button
                 type="button"
                 onClick={() => updateQuery({ page: page + 1 })}
                 disabled={!hasMore}
-                className="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-3 py-1.5 text-gray-700 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 sm:px-3 py-1.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50"
               >
-                Next
-                <ChevronRight className="h-4 w-4" />
+                <span className="hidden xs:inline">Next</span>
+                <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
               </button>
             </div>
           </div>

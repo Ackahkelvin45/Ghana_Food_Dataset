@@ -29,6 +29,23 @@ model User {
   password    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  // Password reset tokens
+  passwordResetTokens PasswordResetToken[]
+}
+
+// Password reset token model
+model PasswordResetToken {
+  id          Int      @id @default(autoincrement())
+  token       String   @unique
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 
