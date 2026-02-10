@@ -1,7 +1,6 @@
 version: "3.9"
 
 services:
-  # PostgreSQL database (app connects to this via DATABASE_URL)
   db:
     image: postgres:16-alpine
     container_name: food_dataset_db
@@ -21,7 +20,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Next.js app — connects to db service; migrations run on startup
   app:
     build:
       context: .
@@ -38,22 +36,8 @@ services:
       db:
         condition: service_healthy
     ports:
-       - "3000:3000"
+      - "3000:3000"   # 👈 required for server nginx
     command: sh -c "npx prisma migrate deploy && npm run start"
-
-  # Nginx reverse proxy
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    restart: unless-stopped
-    ports:
-      - '3000:80'
-    volumes:
-      - ./nginx/:/etc/nginx/conf.d
-    depends_on:
-      - app
-    networks:
-      - default
 
 volumes:
   postgres_data:
