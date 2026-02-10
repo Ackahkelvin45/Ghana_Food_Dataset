@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Mail, Lock, Eye, EyeClosed, CheckCircle } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, CheckCircle } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
@@ -16,13 +16,15 @@ export default function LoginPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    // Check for success message from password reset
-    const message = searchParams.get('message')
-    if (message === 'password-reset-success') {
+  // Check for success message from password reset
+  const message = searchParams.get('message')
+  const hasSuccessMessage = message === 'password-reset-success'
+
+  React.useEffect(() => {
+    if (hasSuccessMessage) {
       setSuccessMessage('Your password has been reset successfully. You can now sign in with your new password.')
     }
-  }, [searchParams])
+  }, [hasSuccessMessage])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -55,27 +57,22 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-xl">
-     
-
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
         <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-          <div className="mb-8 flex items-center gap-3">
-          
-            <div>
-              <h1 className="font-google text-2xl font-semibold text-gray-900">
-                Sign in
-              </h1>
-              <p className="text-sm font-raleway text-gray-500">
-                Enter your credentials to sign in
-              </p>
-            </div>
+          <div className="mb-8">
+            <h1 className="font-google text-2xl font-semibold text-gray-900">
+              Sign in
+            </h1>
+            <p className="text-sm font-raleway text-gray-500">
+              Enter your credentials to sign in
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5 font-raleway">
             {successMessage && (
               <div className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700 flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 flex-shrink-0" />
+                <CheckCircle className="h-4 w-4 shrink-0" />
                 {successMessage}
               </div>
             )}
@@ -102,7 +99,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full text-sm  rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-900 placeholder-gray-400 focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b]"
+                  className="w-full text-sm rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-900 placeholder-gray-400 focus:border-[#ee7c2b] focus:outline-none focus:ring-1 focus:ring-[#ee7c2b]"
                 />
               </div>
             </div>
@@ -132,7 +129,7 @@ export default function LoginPage() {
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
-                    <EyeClosed className="h-5 w-5" />
+                    <EyeOff className="h-5 w-5" />
                   ) : (
                     <Eye className="h-5 w-5" />
                   )}
@@ -143,14 +140,12 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="flex w-full  mt-20 font-google items-center justify-center gap-2 rounded-lg bg-[#ee7c2b] py-2.5 font-medium text-white hover:bg-[#d66a1f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#ee7c2b] py-2.5 font-medium text-white hover:bg-[#d66a1f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? (
                 <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
               ) : (
-                <>
-                  Sign in
-                </>
+                'Sign in'
               )}
             </button>
           </form>
@@ -168,5 +163,29 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md">
+          <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 rounded mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-8"></div>
+              <div className="space-y-4">
+                <div className="h-12 bg-gray-200 rounded"></div>
+                <div className="h-12 bg-gray-200 rounded"></div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   )
 }
