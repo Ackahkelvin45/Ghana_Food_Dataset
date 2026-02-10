@@ -115,13 +115,13 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.4 }}
-      className="flex justify-center flex-col px-10 pt-10 pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
+      className="flex justify-center flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-6 sm:pb-8 lg:pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
     >
-  
+
 
       <div className="w-full mt-6 font-raleway">
-        <h3 className="text-2xl font-google font-semibold mb-4">{dishName} Information</h3>
-        <p className="text-sm text-gray-700 mb-6">
+        <h3 className="text-xl sm:text-2xl font-google font-semibold mb-4">{dishName} Information</h3>
+        <p className="text-sm sm:text-base text-gray-700 mb-6">
           Provide information about the dish shown in the image. This helps researchers and developers understand the type of food, its ingredients, cultural background, and meal category. If you are unsure of any detail, you may leave optional questions blank or select "Do not know."
         </p>
 
@@ -129,10 +129,10 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
         {isRiceOrYamOrPlantain && (
           <>
             <div className="mb-6 font-raleway">
-              <label className="block text-sm  font-medium mb-3">
+              <label className="block text-sm sm:text-base font-medium mb-3">
                 Stew <span className="text-red-500">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {stewOptions.map((option) => (
                   <label key={option} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -160,10 +160,10 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3">
+              <label className="block text-sm sm:text-base font-medium mb-3">
                 Select any extra items or sides served with the food. Include anything that appears on the plate. <span className="text-red-500">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {extraItemsOptions.map((option) => (
                   <label key={option} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -225,10 +225,10 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
         {/* Banku, Fufu, Kokonte, Kenkey Section */}
         {isBankuOrFufuOrKokonteOrKenkey && (
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-3">
+            <label className="block text-sm sm:text-base font-medium mb-3">
               Soup Context <span className="text-red-500">*</span>
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {soupContextOptions.map((option) => (
                 <label key={option} className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -293,10 +293,10 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
         {isBread && (
           <>
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3">
+              <label className="block text-sm sm:text-base font-medium mb-3">
                 Bread Type <span className="text-red-500">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {breadTypeOptions.map((option) => (
                   <label key={option} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -324,10 +324,10 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3">
+              <label className="block text-sm sm:text-base font-medium mb-3">
                 Served with <span className="text-red-500">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {breadServedWithOptions.map((option) => (
                   <label key={option} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -357,10 +357,10 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
         {/* Gob3 Section */}
         {isGob3 && (
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-3">
+            <label className="block text-sm sm:text-base font-medium mb-3">
               Served with <span className="text-red-500">*</span>
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {gob3ServedWithOptions.map((option) => (
                 <label key={option} className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -389,11 +389,11 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
         {/* Protein Context - Not shown for Koko and Bread */}
         {!isKoko && !isBread && (
           <div className="mb-6 font-raleway">
-            <label className="block text-sm font-semibold mb-3">
+            <label className="block text-sm sm:text-base font-semibold mb-3">
               Choose the protein, meat, or fish served with the food. Select all that appear in the image.
             </label>
-            <p className="text-xs text-gray-600 mb-3 font-raleway font-medium">Protein / Meat</p>
-            <div className="grid grid-cols-3 gap-3">
+            <p className="text-xs sm:text-sm text-gray-600 mb-3 font-raleway font-medium">Protein / Meat</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {proteinOptions.map((option) => (
                 <label key={option} className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -422,16 +422,16 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
  
 
 
-      <div className="w-full flex-row flex font-google mt-10 justify-center gap-5">
+      <div className="w-full flex-col sm:flex-row flex font-google mt-8 sm:mt-10 justify-center gap-4 sm:gap-5">
         <button
           onClick={() => handleNavigation(2, -1)}
-          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-2 rounded-md border border-gray-300 hover:bg-gray-50"
+          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-3 sm:py-2 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
         >
-          Previous 
+          Previous
         </button>
         <button
           onClick={handleContinue}
-          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] hover:bg-[#d66a1f]"
+          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-3 sm:py-2 rounded-md bg-[#ee7c2b] hover:bg-[#d66a1f] transition-colors"
         >
           Continue
           <ArrowRight strokeWidth={1.5} />

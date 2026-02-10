@@ -17,7 +17,7 @@ function Completed({ handleNavigation }: CompletedProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col justify-center items-center w-full max-w-3xl bg-white shadow-sm border border-gray-100 rounded-lg px-10 pt-12 pb-12"
+      className="flex flex-col justify-center items-center w-full max-w-3xl bg-white shadow-sm border border-gray-100 rounded-lg px-4 sm:px-6 lg:px-10 pt-8 sm:pt-10 lg:pt-12 pb-8 sm:pb-10 lg:pb-12"
     >
         <Confetti width={width} height={height} />
       <div className="flex flex-col items-center text-center">
@@ -44,7 +44,7 @@ function Completed({ handleNavigation }: CompletedProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-2xl md:text-3xl font-google font-semibold text-gray-900 mb-3"
+          className="text-xl sm:text-2xl md:text-3xl font-google font-semibold text-gray-900 mb-3"
         >
           You&apos;re all done!
         </motion.h2>

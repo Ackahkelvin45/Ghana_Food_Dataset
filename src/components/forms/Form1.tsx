@@ -32,13 +32,13 @@ function Form1({ handleNavigation, direction = 1 }: Form1Props) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.4 }}
-      className="flex justify-center flex-col px-10 pt-10 pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
+      className="flex justify-center flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-6 sm:pb-8 lg:pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
     >
-      <div className="text-2xl font-google  text-left w-full font-semibold">
+      <div className="text-xl sm:text-2xl font-google text-left w-full font-semibold">
         Ghanaian Food Image Dataset Project
       </div>
 
-      <div className="flex flex-col gap-3 text-sm font-raleway mt-6">
+      <div className="flex flex-col gap-3 text-sm sm:text-base font-raleway mt-6">
         <p>Thank you for helping build the Ghanaian Food Image Dataset.</p>
         <p>
           This project aims to collect high-quality photographs of Ghanaian dishes to support research, machine learning models, and digital innovation in food recognition and cultural documentation.
@@ -59,13 +59,13 @@ function Form1({ handleNavigation, direction = 1 }: Form1Props) {
         <p>6. Confirm you agree to proceed</p>
       </div>
 
-      <div className="w-full flex-row flex mt-10 justify-center gap-5">
-        <div className="w-full  font-google font-medium text-center flex flex-row justify-center items-center gap-2 py-2 rounded-md border border-gray-300">
+      <div className="w-full flex-col sm:flex-row flex mt-8 sm:mt-10 justify-center gap-4 sm:gap-5">
+        <div className="w-full font-google font-medium text-center flex flex-row justify-center items-center gap-2 py-3 sm:py-2 rounded-md border border-gray-300">
           NO
         </div>
         <button
-          onClick={() => handleNavigation(2, 1)} 
-          className="w-full font-medium  font-google flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b]"
+          onClick={() => handleNavigation(2, 1)}
+          className="w-full font-medium font-google flex flex-row justify-center items-center text-white gap-2 py-3 sm:py-2 rounded-md bg-[#ee7c2b] hover:bg-[#d96b20] transition-colors"
         >
           Confirm and Continue
           <ArrowRight strokeWidth={1.5} />

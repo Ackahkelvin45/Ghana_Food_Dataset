@@ -31,7 +31,7 @@ function MutiStepLayout() {
       }
     })
   return (
-    <div className="flex w-full py-5 items-center gap-2   flex-col ">
+    <div className="flex w-full py-4 sm:py-5 lg:py-6 items-center gap-3 sm:gap-4 flex-col">
 
       {active !== 7 && <Tab active={active} onTabClick={handleTabClick} />}
       {
@@ -45,12 +45,6 @@ function MutiStepLayout() {
         <Form3 handleNavigation={handleNavigation}   />
       }
 
-      
-
-     
-
-
-  
     </div>
   )
 }

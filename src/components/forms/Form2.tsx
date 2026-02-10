@@ -138,13 +138,13 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.4 }}
-      className="flex justify-center flex-col px-10 pt-10 pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
+      className="flex justify-center flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-6 sm:pb-8 lg:pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
     >
-    
+
 
       <div className="w-full mt-6">
-        <h3 className="text-2xl  font-google font-semibold mb-4">Image Submission</h3>
-        <p className="text-sm text-gray-700 font-raleway mb-6">
+        <h3 className="text-xl sm:text-2xl font-google font-semibold mb-4">Image Submission</h3>
+        <p className="text-sm sm:text-base text-gray-700 font-raleway mb-6">
           Please upload a clear photograph of the food item you are contributing. You may upload an additional angle to improve the quality of the dataset. Ensure that the images do not contain people, body parts, personal belongings, or identifiable locations. This helps protect privacy and maintain dataset quality.
         </p>
 
@@ -221,10 +221,10 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
 
         {/* Confirmation */}
         <div className="mb-6 font-raleway relative z-10">
-          <label className="block text-sm font-medium mb-3">
+          <label className="block text-sm sm:text-base font-medium mb-3">
            Please confirm that no person or part of a person appears in the image. <span className="text-red-500">*</span>
           </label>
-          <div className="flex gap-6">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
             <div className="flex items-center gap-2">
               <input
                 type="radio"
@@ -237,7 +237,7 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
                 className="w-4 h-4 text-[#ee7c2b] focus:ring-[#ee7c2b] cursor-pointer"
                 required
               />
-              <label htmlFor="confirmation-yes" className="text-sm cursor-pointer" onClick={() => handleRadioClick('yes')}>
+              <label htmlFor="confirmation-yes" className="text-sm sm:text-base cursor-pointer" onClick={() => handleRadioClick('yes')}>
                 Yes
               </label>
             </div>
@@ -253,7 +253,7 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
                 className="w-4 h-4 text-[#ee7c2b] focus:ring-[#ee7c2b] cursor-pointer"
                 required
               />
-              <label htmlFor="confirmation-no" className="text-sm cursor-pointer" onClick={() => handleRadioClick('no')}>
+              <label htmlFor="confirmation-no" className="text-sm sm:text-base cursor-pointer" onClick={() => handleRadioClick('no')}>
                 No
               </label>
             </div>
@@ -261,17 +261,17 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
         </div>
       </div>
 
-      <div className="w-full  font-google flex-row flex mt-10 justify-center gap-5">
+      <div className="w-full font-google flex-col sm:flex-row flex mt-8 sm:mt-10 justify-center gap-4 sm:gap-5">
         <button
           onClick={() => handleNavigation(1, -1)}
-          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-2 rounded-md border border-gray-300 hover:bg-gray-50"
+          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-3 sm:py-2 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
         >
           Previous
         </button>
         <button
           onClick={handleContinue}
           disabled={!dishName || !confirmation || mainImages.length === 0}
-          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
+          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-3 sm:py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
         >
           Continue
           <ArrowRight strokeWidth={1.5} />

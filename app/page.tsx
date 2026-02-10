@@ -13,19 +13,19 @@ export default function Home() {
       <section className="px-6 md:px-20 lg:px-40 py-10 md:py-20">
         <div className="max-w-[1280px] mx-auto">
           <div className="@container">
-            <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
-              <div className="w-full lg:w-1/2 relative">
-                <div 
-                  className="w-[450px] bg-center bg-no-repeat aspect-square md:aspect-video lg:aspect-square bg-cover rounded-2xl shadow-2xl border-4 border-white dark:border-[#3d2c20]" 
+            <div className="flex flex-col gap-6 lg:gap-10 xl:flex-row xl:items-center">
+              <div className="w-full xl:w-1/2 relative flex justify-center xl:justify-start">
+                <div
+                  className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-center bg-no-repeat aspect-square sm:aspect-video md:aspect-square bg-cover rounded-2xl shadow-2xl border-4 border-white dark:border-[#3d2c20]"
                   style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAYHo2StqIrXATY9A39Tcs6f8XVLhW7JdeFYJWGBH-dmftIJ26Nxe4QMFZcMHIPIhkE5dvIKWCVsKEd6sUjWVfgkSykXGafyr6y6a6LcbImqnioIRqE79D0cy0MsUvbaSBsSGoubaf-HWkNK4Amk3Z3hvlL02pQLCP8CxCUzLgPAZl9Po2Op-FpVKUuG-VSaSFFgnsTuxKEl1Ig3Ve_hs5ojN2Haa8_vBjhEGsfGl2Ciz7onJJTgVpak6abTv9Whbqn9q4cxAS8IlqO")'}}
                 />
-                
+
                 {/* Floating Badge */}
-                <div className="absolute -bottom-6 right-6 bg-[#006b3f] text-white p-4 rounded-xl shadow-xl flex items-center gap-3 border-2 border-white">
-                  <span className="text-[#FFD700] text-2xl">★</span>
+                <div className="absolute -bottom-4 right-4 sm:-bottom-6 sm:right-6 bg-[#006b3f] text-white p-3 sm:p-4 rounded-xl shadow-xl flex items-center gap-2 sm:gap-3 border-2 border-white">
+                  <span className="text-[#FFD700] text-xl sm:text-2xl">★</span>
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider">Dataset</p>
-                    <p className="text-lg font-black leading-none">10+ Classes</p>
+                    <p className="text-sm sm:text-base lg:text-lg font-black leading-none">10+ Classes</p>
                   </div>
                 </div>
               </div>
@@ -146,19 +146,19 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2 grid grid-cols-2 gap-4 mt-12 lg:mt-0">
-              <div className="w-full aspect-4/5 rounded-2xl shadow-lg overflow-hidden relative">
-                <Image 
-                  src={foodImage} 
-                  alt="Traditional Ghanaian food" 
+            <div className="lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-8 sm:mt-12 lg:mt-0">
+              <div className="w-full aspect-4/5 sm:aspect-3/4 md:aspect-4/5 rounded-2xl shadow-lg overflow-hidden relative">
+                <Image
+                  src={foodImage}
+                  alt="Traditional Ghanaian food"
                   className="w-full h-full object-cover"
                   fill
                 />
               </div>
-              <div className="w-full aspect-4/5 rounded-2xl shadow-lg mt-8 overflow-hidden relative">
-                <Image 
-                  src={foodImage2} 
-                  alt="Assorted Ghanaian dishes" 
+              <div className="w-full aspect-4/5 sm:aspect-3/4 md:aspect-4/5 rounded-2xl shadow-lg sm:mt-6 md:mt-8 overflow-hidden relative">
+                <Image
+                  src={foodImage2}
+                  alt="Assorted Ghanaian dishes"
                   className="w-full h-full object-cover"
                   fill
                 />

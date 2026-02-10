@@ -159,12 +159,12 @@ function Form6({ handleNavigation, direction = 1 }: Form6Props) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.4 }}
-      className="flex justify-center flex-col px-10 pt-10 pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
+      className="flex justify-center flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-6 sm:pb-8 lg:pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
     >
 
 
       <div className="w-full mt-6">
-        <h3 className="text-2xl  font-google font-semibold mb-4">Final Confirmation</h3>
+        <h3 className="text-xl sm:text-2xl font-google font-semibold mb-4">Final Confirmation</h3>
         <p className="text-base font-raleway text-gray-700 mb-6">
           Please confirm that the information you provided is accurate and indicate whether you would like to submit more images. Thank you for contributing to the Ghanaian Food Image Dataset and supporting research and innovation.
         </p>
@@ -251,17 +251,17 @@ function Form6({ handleNavigation, direction = 1 }: Form6Props) {
         )}
       </div>
 
-      <div className="w-full font-google flex-row flex mt-10 justify-center gap-5">
+      <div className="w-full font-google flex-col sm:flex-row flex mt-8 sm:mt-10 justify-center gap-4 sm:gap-5">
         <button
           onClick={() => handleNavigation(5, -1)}
-          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-2 rounded-md border border-gray-300 hover:bg-gray-50"
+          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-3 sm:py-2 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
         >
           Previous
         </button>
         <button
           onClick={handleSubmit}
           disabled={!confirmation || isSubmitting || submitSuccess}
-          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
+          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-3 sm:py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
         >
           {isSubmitting ? (
             <>

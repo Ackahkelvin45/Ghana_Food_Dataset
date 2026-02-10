@@ -94,19 +94,19 @@ function Form4({ handleNavigation, direction = 1 }: Form4Props) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.4 }}
-      className="flex justify-center flex-col px-10 pt-10 pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
+      className="flex justify-center flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-6 sm:pb-8 lg:pb-10 items-center w-full h-fit max-w-3xl bg-white shadow-sm border border-gray-100"
     >
      
 
       <div className="w-full mt-6">
-        <h3 className="text-2xl font-google font-semibold mb-4">Setting and Location</h3>
+        <h3 className="text-xl sm:text-2xl font-google font-semibold mb-4">Setting and Location</h3>
         <p className="text-base font-raleway text-gray-700 mb-6">
           Tell us where the food was obtained and where the photograph was taken. This information helps the dataset capture geographic and cultural diversity across different regions in Ghana. No specific address is required—only general location details.
         </p>
 
         {/* Region */}
         <div className="mb-6 font-raleway">
-          <label className="block text-sm font-medium mb-3">
+          <label className="block text-sm sm:text-base font-medium mb-3">
             Region <span className="text-red-500">*</span>
           </label>
           <select
@@ -140,7 +140,7 @@ function Form4({ handleNavigation, direction = 1 }: Form4Props) {
 
         {/* Where food was obtained */}
         <div className="mb-6 font-raleway">
-          <label className="block text-sm font-medium mb-3">
+          <label className="block text-sm sm:text-base font-medium mb-3">
             Where was this food obtained <span className="text-red-500">*</span>
           </label>
           <div className="grid grid-cols-1 gap-3">
@@ -172,18 +172,18 @@ function Form4({ handleNavigation, direction = 1 }: Form4Props) {
         </div>
       </div>
 
-      <div className="w-full font-google flex-row flex mt-10 justify-center gap-5">
+      <div className="w-full font-google flex-col sm:flex-row flex mt-8 sm:mt-10 justify-center gap-4 sm:gap-5">
         <button
           onClick={() => handleNavigation(3, -1)}
-          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-2 rounded-md border border-gray-300 hover:bg-gray-50"
+          className="w-full font-medium text-center flex flex-row justify-center items-center gap-2 py-3 sm:py-2 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
         >
-     
+
           Previous
         </button>
         <button
           onClick={handleContinue}
           disabled={!formData.region || !formData.foodObtained}
-          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
+          className="w-full font-medium flex flex-row justify-center items-center text-white gap-2 py-3 sm:py-2 rounded-md bg-[#ee7c2b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d66a1f] transition-colors"
         >
           Continue
           <ArrowRight strokeWidth={1.5} />
