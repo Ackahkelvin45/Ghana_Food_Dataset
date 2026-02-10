@@ -19,10 +19,12 @@ export async function POST(req: NextRequest) {
     // Check if user exists
     const user = await prisma.user.findUnique({
       where: { email: emailTrimmed },
+      select: { id: true, email: true, fullName: true }
     });
 
     if (!user) {
-      // Don't reveal if user exists or not for security
+      // For security, don't reveal that the email doesn't exist
+      // Just return a success message
       return NextResponse.json({
         message: "If an account with that email exists, we've sent a password reset link."
       });
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Send email
+    // Send email to the verified user
     const resetUrl = `${process.env.AUTH_URL}/reset-password?token=${resetToken}`;
 
     try {

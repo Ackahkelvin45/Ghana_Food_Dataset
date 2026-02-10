@@ -1,4 +1,4 @@
-# version: "3.9"  # Removed obsolete version
+version: "3.9"
 
 services:
   db:
