@@ -104,7 +104,7 @@ function Form3({ handleNavigation, direction = 1 }: Form3Props) {
   const pepperOptions = ['Red Pepper', 'Green Pepper', 'Shito']
   const breadTypeOptions = ['Sugar Bread', 'Tea Bread', 'Wheat Bread', 'Brown Bread', 'Cake Bread', 'Coconut Bread']
   const breadServedWithOptions = ['Jam', 'Butter', 'Mangerine', 'None']
-  const gob3ServedWithOptions = ['Fried Plantain', 'Fried Yam', 'Salad', 'Rice', 'None']
+  const gob3ServedWithOptions = ['Fried Plantain', 'Fried Yam', 'Salad', 'Rice','Gari','None']
   const proteinOptions = ['Fish', 'Chicken', 'Turkey', 'Beef', 'Goat Meat', 'Boiled Egg', 'Friend Egg', 'Sausage', 'Gizzards', 'Cow meat', 'Pork', 'Snail', 'Shrimp', 'Wele', 'None']
 
   return (

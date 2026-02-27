@@ -6,8 +6,14 @@ export interface DashboardTotals {
   images: number;
 }
 
+export interface ClassCountMap {
+  [dishType: string]: number;
+}
+
 export interface DashboardDataResponse {
   totals: DashboardTotals;
+  submissionsByClass: ClassCountMap;
+  imagesByClass: ClassCountMap;
 }
 
 export interface DashboardErrorResponse {
