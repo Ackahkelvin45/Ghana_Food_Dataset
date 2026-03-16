@@ -185,7 +185,7 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
             files={mainImages}
             onupdatefiles={handleMainImagesUpdate}
             allowMultiple={true}
-            maxFiles={5}
+            maxFiles={1}
             {...({ maxFileSize: "10MB" } as any)}
             acceptedFileTypes={['image/*']}
             labelIdle='<span class="filepond--label-action">Browse</span> or drag & drop your image here'
@@ -207,7 +207,7 @@ function Form2({ handleNavigation, direction = 1 }: Form2Props) {
             files={additionalImages}
             onupdatefiles={handleAdditionalImagesUpdate}
             allowMultiple={true}
-            maxFiles={5}
+            maxFiles={10}
             {...({ maxFileSize: "10MB" } as any)}
             acceptedFileTypes={['image/*']}
             labelIdle='<span class="filepond--label-action">Browse</span> or drag & drop your images here'
